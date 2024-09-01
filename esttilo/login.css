@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+form{
+    width: 270px;
+    background-color: rgb(230, 240, 248);
+    padding: 30px;
+    margin: auto;
+    margin-top: 7%;
+    color: rgba(86, 152, 214, 0.849);
+    border-radius: 10px;
+}
+form h1{
+    text-align: center;
+}
+form div{
+    max-width: max-content;
+    margin: auto;
+    margin-top: 15px;
+}
+form div input{
+    width: 250px;
+    height: 25px;
+    border-radius: 5px;
+    padding: 2px;
+}
+#btn{
+    background-color: rgba(86, 152, 214, 0.849);
+    color: #fff;
+    cursor: pointer;
+    height: 30px;
+}
