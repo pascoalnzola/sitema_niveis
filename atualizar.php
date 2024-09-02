@@ -39,7 +39,7 @@
             $senha = $_POST['senha'];
             $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo =  $cod";
             $atual = $conn->query($atualiar);
-            echo "<script>aler('Dados atualizado com sucesso!')</script>";
+            echo "<script>alert('Dados atualizado com sucesso!')</script>";
         }
     }
 ?>
