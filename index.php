@@ -38,6 +38,10 @@
     .Sair a{
         color: #fff;
     }
+    #enp{
+        max-width: max-content;
+        margin-left: 180px;
+    }
 </style>
 <body>
     <header>
@@ -61,6 +65,15 @@
     <div id="tit">
         <h1>Usuários Cadastrados</h1>
     </div>
+    <form action="<?php echo $_SERVER['PHP_SELF']?>" method="get" id="enp">
+        <select name="niveis" id="niveis">
+            <option value="Todos">Todos</option>
+            <option value="Admin">Admin</option>
+            <option value="Nivel1">Nivel1</option>
+            <option value="Nivel2">Nivel2</option>
+        </select>
+        <input type="submit" value="Aplicar">
+    </form>
     <table class="table" border="1">
         <thead>
             <tr>
@@ -74,20 +87,76 @@
             </tr>
         </thead>
         <?php
-            $select = "SELECT * FROM Usuarios";
-            $res = $conn->query($select);
-            $dados = $res->fetchAll();
-            foreach ($dados as $dado) {
-                echo "<tr>";
-                echo "<td>".$dado['Codigo']."</td>";
-                echo "<td>".$dado['Nome']."</td>";
-                echo "<td>".$dado['email']."</td>";
-                echo "<td>".$dado['data_nascimento']."</td>";
-                echo "<td>".$dado['Nivel']."</td>";
-                echo "<td>".$dado['senha']."</td>";
-                echo "<td>".$dado['foto']."</td>";
-                echo "</tr>";
+            if($_SERVER['REQUEST_METHOD'] === 'GET'){
+                if(isset($_GET['niveis'])){
+                    $nivel = $_GET['niveis'];
+                    if($nivel == "Todos"){
+                        $select = "SELECT * FROM Usuarios";
+                        $res = $conn->query($select);
+                        $dados = $res->fetchAll();
+                        foreach ($dados as $dado) {
+                            echo "<tr>";
+                            echo "<td>".$dado['Codigo']."</td>";
+                            echo "<td>".$dado['Nome']."</td>";
+                            echo "<td>".$dado['email']."</td>";
+                            echo "<td>".$dado['data_nascimento']."</td>";
+                            echo "<td>".$dado['Nivel']."</td>";
+                            echo "<td>".$dado['senha']."</td>";
+                            echo "<td>".$dado['foto']."</td>";
+                            echo "</tr>";
+                        }
+                    }
+                    else if($nivel == "Admin"){
+                        $select = "SELECT * FROM Usuarios Where Nivel='$nivel'";
+                        $res = $conn->query($select);
+                        $dados = $res->fetchAll();
+                        foreach ($dados as $dado) {
+                            echo "<tr>";
+                            echo "<td>".$dado['Codigo']."</td>";
+                            echo "<td>".$dado['Nome']."</td>";
+                            echo "<td>".$dado['email']."</td>";
+                            echo "<td>".$dado['data_nascimento']."</td>";
+                            echo "<td>".$dado['Nivel']."</td>";
+                            echo "<td>".$dado['senha']."</td>";
+                            echo "<td>".$dado['foto']."</td>";
+                            echo "</tr>";
+                        }
+                    }
+                    else if($nivel == "Nivel1"){
+                        $select = "SELECT * FROM Usuarios Where Nivel='$nivel'";
+                        $res = $conn->query($select);
+                        $dados = $res->fetchAll();
+                        foreach ($dados as $dado) {
+                            echo "<tr>";
+                            echo "<td>".$dado['Codigo']."</td>";
+                            echo "<td>".$dado['Nome']."</td>";
+                            echo "<td>".$dado['email']."</td>";
+                            echo "<td>".$dado['data_nascimento']."</td>";
+                            echo "<td>".$dado['Nivel']."</td>";
+                            echo "<td>".$dado['senha']."</td>";
+                            echo "<td>".$dado['foto']."</td>";
+                            echo "</tr>";
+                        }
+                    }
+                    else if($nivel == "Nivel2"){
+                        $select = "SELECT * FROM Usuarios Where Nivel='$nivel'";
+                        $res = $conn->query($select);
+                        $dados = $res->fetchAll();
+                        foreach ($dados as $dado) {
+                            echo "<tr>";
+                            echo "<td>".$dado['Codigo']."</td>";
+                            echo "<td>".$dado['Nome']."</td>";
+                            echo "<td>".$dado['email']."</td>";
+                            echo "<td>".$dado['data_nascimento']."</td>";
+                            echo "<td>".$dado['Nivel']."</td>";
+                            echo "<td>".$dado['senha']."</td>";
+                            echo "<td>".$dado['foto']."</td>";
+                            echo "</tr>";
+                        }
+                    }
+                }
             }
+            
         ?>
     </table>
 </body>
