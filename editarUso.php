@@ -86,10 +86,19 @@
         background-color: rgb(18, 18, 41);
         color: white;
     }
+    img{
+        width: 80px;
+        border-radius: 15px;
+        height: 40px;
+    }
+    .user{
+        display: flex;
+    }
 </style>
 <body>
     <header>
-        <div>
+        <div class="user">
+            <img src="<?php echo $_SESSION['perfil']?>" alt="foto_perfil">
             <h1><?php echo $_SESSION["usuario"] ?></h1>
         </div>
         <div>

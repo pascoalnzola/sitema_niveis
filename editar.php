@@ -27,6 +27,7 @@
             $senha = $_POST['senha'];
             $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
             $atual = $conn->query($atualiar);
+            $_SESSION['usuario'] = $nome;
             echo "<script>aler('Dados atualizado com sucesso!')</script>";
         }
     }
@@ -86,11 +87,20 @@
         background-color: rgb(18, 18, 41);
         color: white;
     }
+    img{
+        width: 80px;
+        border-radius: 15px;
+        height: 40px;
+    }
+    .user{
+        display: flex;
+    }
 </style>
 <body>
     <header>
-        <div>
-            <h1><?php echo $_SESSION["usuario"] ?></h1>
+        <div class="user">
+            <img src="<?php echo $_SESSION['perfil']?>" alt="foto_perfil">
+            <h1><?php echo $_SESSION["usuario"]; ?></h1>
         </div>
         <div>
             <form action="admin.php" method="post">

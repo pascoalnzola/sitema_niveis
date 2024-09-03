@@ -15,11 +15,13 @@
                     header("Location: index.php");
                }
                else if($res["Nivel"] == "Nivel1"){
+                    $_SESSION['perfil'] = $res['foto'];
                     $_SESSION['user_id'] = $res['Codigo'];
                     $_SESSION['usuario'] = $user;
                     header("Location: nivel.php");
                 }
                 else if($res["Nivel"] == "Nivel2"){
+                    $_SESSION['perfil'] = $res['foto'];
                     $_SESSION['user_id'] = $res['Codigo'];
                     $_SESSION['usuario'] = $user;
                     header("Location: nivel.php");
