@@ -224,7 +224,7 @@ main {
             <form action="admin.php" method="post">
                 <select name="Admin" id="Admin">
                     <option value="eliminar">Eliminar Usuário</option>
-                    <option value="admin">Admin</option>
+                    <option value="">Admin</option>
                     <option value="editar">Editar Perfil</option>
                     <option value="inserir">Inserir Usuário</option>
                     <option value="atualizar">Atualizar Usuário</option>
