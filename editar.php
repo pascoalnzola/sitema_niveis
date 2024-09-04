@@ -38,104 +38,190 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Perfil</title>
-    <link rel="stylesheet" href="esttilo/estilo.css">
+    <link rel="stylesheet" href="estilo/estilo.css">
 </head>
 <style>
-    #insert{
-        max-width: max-content;
-        margin: auto;
-        margin-top: 1%;
-    }
-    #insert h1{
-        text-align: center;
-    }
-    #insert form{
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    #insert form input{
-        width: 350px;
-        height: 15px;
-        padding: 5px;
-    }
-    #insert form select{
-        width: 360px;
-        height: 40px;
-        padding: 5px;
-    }
-    #insert form .btn{
-        margin: auto;
-        height: 30px;
-        background-color: rgb(18, 18, 41);
-        color: #fff;
-        cursor: pointer;
-    }
-    #cod{
-        max-width: max-content;
-        margin: auto;
-    }
-    #cod input{
-        height: 30px;
-        width: 200px;
-    }
-    #cod .pes{
-        width: 160px;
-        cursor: pointer;
-    }
-    #cod .pes:hover{
-        background-color: rgb(18, 18, 41);
-        color: white;
-    }
-    img{
-        width: 80px;
-        border-radius: 15px;
-        height: 40px;
-    }
-    .user{
-        display: flex;
-    }
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+
+header {
+    background-color: #ffffff;
+    border-bottom: 2px solid #ddd;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.admin-form {
+    display: flex;
+    align-items: center;
+}
+
+.admin-form form {
+    display: flex;
+    align-items: center;
+}
+
+select, input[type="submit"] {
+    height: 40px;
+    padding: 5px;
+    margin: 0 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    background-color: rgb(18, 18, 41);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #333;
+}
+
+main {
+    padding: 20px;
+}
+
+.edit-profile-section {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-profile-section h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.edit-profile-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.edit-profile-section label {
+    font-size: 16px;
+    color: #555;
+}
+
+.edit-profile-section input[type="text"],
+.edit-profile-section input[type="email"],
+.edit-profile-section input[type="date"],
+.edit-profile-section input[type="password"],
+.edit-profile-section select,
+.edit-profile-section input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+.edit-profile-section input[type="file"] {
+    padding: 5px;
+}
+
+.edit-profile-section .btn {
+    background-color: rgb(18, 18, 41);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    height: 45px;
+    font-size: 16px;
+}
+
+.edit-profile-section .btn.edit-btn {
+    background-color: #007bff; /* Blue color for edit action */
+}
+
+.edit-profile-section .btn.edit-btn:hover {
+    background-color: #0056b3;
+}
+
 </style>
 <body>
     <header>
         <div class="user">
-            <img src="<?php echo $_SESSION['perfil']?>" alt="foto_perfil">
+            <img src="<?php echo $_SESSION['perfil']; ?>" alt="foto_perfil">
             <h1><?php echo $_SESSION["usuario"]; ?></h1>
         </div>
-        <div>
+        <div class="admin-form">
             <form action="admin.php" method="post">
                 <select name="Admin" id="Admin">
-                <option value="editar">Editar Perfil</option>
-                    <option value="">Admin</option>
-                    <option value="eliminar">Eliminar Usuario</option>
-                    <option value="inserir">Inserir Usuario</option>
-                    <option value="atualizar">Atualizar Usuario</option>
+                    <option value="editar">Editar Perfil</option>
+                    <option value="admin">Admin</option>
+                    <option value="eliminar">Eliminar Usuário</option>
+                    <option value="inserir">Inserir Usuário</option>
+                    <option value="atualizar">Atualizar Usuário</option>
                 </select>
-                <input type="submit" value="Aplicar" id="btn">
+                <input type="submit" value="Aplicar" class="btn">
             </form>
         </div>
     </header>
-    <div id="insert">
-        <h1>Editar Perfil</h1>
-        <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
-            <label for="nome">Nome*</label>
-            <input type="text" name="nome" id="nome" value="<?php echo $nome ?> ">
-            <label for="email">Email*</label>
-            <input type="email" name="email" id="email" value="<?php echo $email ?> ">
-            <label for="data">Data de Nascimentto*</label>
-            <input type="date" name="data" id="data" value="<?php echo $data ?> ">
-            <label for="nivel">Nível*</label>
-            <select name="nivel" id="nivel">
-                <option value="Admin">Admin</option>
-                <option value="Nivel1">Nível 1</option>
-                <option value="Nivel2">Nível 2</option>
-            </select>
-            <label for="foto">Foto de Perfil*</label>
-            <input type="file" name="foto" id="foto" accept="image/*"> 
-            <label for="senha">Senha*</label>
-            <input type="password" name="senha" id="senha" value="<?php echo $senha ?> ">
-            <input type="submit" value="Editar" class="btn">
-        </form>
-    </div>
+    <main>
+        <section class="edit-profile-section">
+            <h1>Editar Perfil</h1>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
+                <label for="nome">Nome*</label>
+                <input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" required>
+                
+                <label for="email">Email*</label>
+                <input type="email" name="email" id="email" value="<?php echo $email; ?>" required>
+                
+                <label for="data">Data de Nascimento*</label>
+                <input type="date" name="data" id="data" value="<?php echo $data; ?>" required>
+                
+                <label for="nivel">Nível*</label>
+                <select name="nivel" id="nivel" required>
+                    <option value="Admin" <?php echo $nivel == 'Admin' ? 'selected' : ''; ?>>Admin</option>
+                    <option value="Nivel1" <?php echo $nivel == 'Nivel1' ? 'selected' : ''; ?>>Nível 1</option>
+                    <option value="Nivel2" <?php echo $nivel == 'Nivel2' ? 'selected' : ''; ?>>Nível 2</option>
+                </select>
+                
+                <label for="foto">Foto de Perfil*</label>
+                <input type="file" name="foto" id="foto" accept="image/*">
+                
+                <label for="senha">Senha*</label>
+                <input type="password" name="senha" id="senha" value="<?php echo $senha; ?>" required>
+                
+                <input type="submit" value="Editar" class="btn edit-btn">
+            </form>
+        </section>
+    </main>
 </body>
 </html>

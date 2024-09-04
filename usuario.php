@@ -5,9 +5,6 @@
         if($acao == "editar"){
             header("Location: editarUso.php");
         }
-        else if($acao == "eliminar"){
-            header("Location: eliminar.php");
-        }
     }
     else{
         header("Location: nivel.php");

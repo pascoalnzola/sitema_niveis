@@ -10,163 +10,212 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema</title>
-    <link rel="stylesheet" href="esttilo/estilo.css">
+    <link rel="stylesheet" href="estilo/estilo.css">
 </head>
 <style>
-    #tit{
-        max-width: max-content;
-        margin: auto;
-        margin-top: 5%;
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
 
-    }
-    table{
-        border: 1px solid black;
-        border-collapse: collapse;
-        margin: auto;
-        width: 1000px;
-        margin-top: 1%;
-        text-align: center;
-    }
-    .Sair{
-        max-width: max-content;
-        padding: 5px;
-        border-radius: 5px;
-        margin-top: 5px;
-        margin-left: 5px;
-        background-color: blue;
-    }
-    .Sair a{
-        color: #fff;
-    }
-    #enp{
-        max-width: max-content;
-        margin-left: 180px;
-    }
-    img{
-        width: 80px;
-        border-radius: 15px;
-        height: 40px;
-    }
-    .user{
-        display: flex;
-    }
+header {
+    background-color: #ffffff;
+    border-bottom: 2px solid #ddd;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.admin-form {
+    display: flex;
+    align-items: center;
+}
+
+.admin-form form {
+    display: flex;
+    align-items: center;
+}
+
+select, input[type="submit"] {
+    height: 40px;
+    padding: 5px;
+    margin: 0 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    background-color: rgb(18, 18, 41);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #333;
+}
+
+.logout-button {
+    text-align: right;
+    padding: 10px 20px;
+}
+
+.logout-button a {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: blue;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.logout-button a:hover {
+    background-color: darkblue;
+}
+
+main {
+    padding: 20px;
+}
+
+.title-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title-container h1 {
+    font-size: 28px;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+#filter-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-table th, .user-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.user-table th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.user-table img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
 </style>
 <body>
     <header>
         <div class="user">
-            <img src="<?php echo $_SESSION['perfil']?>" alt="foto_perfil">
+            <img src="<?php echo $_SESSION['perfil']; ?>" alt="foto_perfil">
             <h1><?php echo $_SESSION["usuario"]; ?></h1>
         </div>
-        <div>
+        <div class="admin-form">
             <form action="admin.php" method="post">
                 <select name="Admin" id="Admin">
                     <option value="">Admin</option>
                     <option value="editar">Editar Perfil</option>
-                    <option value="inserir">Inserir Usuario</option>
-                    <option value="eliminar">Eliminar Usuario</option>
-                    <option value="atualizar">Atualizar Usuario</option>
+                    <option value="inserir">Inserir Usuário</option>
+                    <option value="eliminar">Eliminar Usuário</option>
+                    <option value="atualizar">Atualizar Usuário</option>
                 </select>
-                <input type="submit" value="Aplicar" id="btn">
+                <input type="submit" value="Aplicar" class="btn">
             </form>
         </div>
     </header>
-    <div class="Sair"><a href="sair.php"> Sair</a></div>
-    <div id="tit">
-        <h1>Usuários Cadastrados</h1>
+    <div class="logout-button">
+        <a href="sair.php">Sair</a>
     </div>
-    <form action="<?php echo $_SERVER['PHP_SELF']?>" method="get" id="enp">
-        <select name="niveis" id="niveis">
-            <option value="Todos">Todos</option>
-            <option value="Admin">Admin</option>
-            <option value="Nivel1">Nivel1</option>
-            <option value="Nivel2">Nivel2</option>
-        </select>
-        <input type="submit" value="Aplicar">
-    </form>
-    <table class="table" border="1">
-        <thead>
-            <tr>
-                <th scope="col">Código</th>
-                <th scope="col">Nome</th>
-                <th scope="col">E-mail</th>
-                <th scope="col">Data de nascimento</th>
-                <th scope="col">Nível</th>
-                <th scope="col">Senha</th>
-                <th scope="col">Foto de Perfil</th>
-            </tr>
-        </thead>
-        <?php
-            if($_SERVER['REQUEST_METHOD'] === 'GET'){
-                if(isset($_GET['niveis'])){
-                    $nivel = $_GET['niveis'];
-                    if($nivel == "Todos"){
-                        $select = "SELECT * FROM Usuarios";
+    <main>
+        <div class="title-container">
+            <h1>Usuários Cadastrados</h1>
+        </div>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" id="filter-form">
+            <select name="niveis" id="niveis">
+                <option value="Todos">Todos</option>
+                <option value="Admin">Admin</option>
+                <option value="Nivel1">Nível 1</option>
+                <option value="Nivel2">Nível 2</option>
+            </select>
+            <input type="submit" value="Aplicar" class="btn">
+        </form>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Data de Nascimento</th>
+                    <th>Nível</th>
+                    <th>Senha</th>
+                    <th>Foto de Perfil</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                    if (isset($_GET['niveis'])) {
+                        $nivel = $_GET['niveis'];
+                        $select = $nivel == "Todos" ? "SELECT * FROM Usuarios" : "SELECT * FROM Usuarios WHERE Nivel='$nivel'";
                         $res = $conn->query($select);
                         $dados = $res->fetchAll();
                         foreach ($dados as $dado) {
                             echo "<tr>";
-                            echo "<td>".$dado['Codigo']."</td>";
-                            echo "<td>".$dado['Nome']."</td>";
-                            echo "<td>".$dado['email']."</td>";
-                            echo "<td>".$dado['data_nascimento']."</td>";
-                            echo "<td>".$dado['Nivel']."</td>";
-                            echo "<td>".$dado['senha']."</td>";
-                            echo "<td>".$dado['foto']."</td>";
-                            echo "</tr>";
-                        }
-                    }
-                    else if($nivel == "Admin"){
-                        $select = "SELECT * FROM Usuarios Where Nivel='$nivel'";
-                        $res = $conn->query($select);
-                        $dados = $res->fetchAll();
-                        foreach ($dados as $dado) {
-                            echo "<tr>";
-                            echo "<td>".$dado['Codigo']."</td>";
-                            echo "<td>".$dado['Nome']."</td>";
-                            echo "<td>".$dado['email']."</td>";
-                            echo "<td>".$dado['data_nascimento']."</td>";
-                            echo "<td>".$dado['Nivel']."</td>";
-                            echo "<td>".$dado['senha']."</td>";
-                            echo "<td>".$dado['foto']."</td>";
-                            echo "</tr>";
-                        }
-                    }
-                    else if($nivel == "Nivel1"){
-                        $select = "SELECT * FROM Usuarios Where Nivel='$nivel'";
-                        $res = $conn->query($select);
-                        $dados = $res->fetchAll();
-                        foreach ($dados as $dado) {
-                            echo "<tr>";
-                            echo "<td>".$dado['Codigo']."</td>";
-                            echo "<td>".$dado['Nome']."</td>";
-                            echo "<td>".$dado['email']."</td>";
-                            echo "<td>".$dado['data_nascimento']."</td>";
-                            echo "<td>".$dado['Nivel']."</td>";
-                            echo "<td>".$dado['senha']."</td>";
-                            echo "<td>".$dado['foto']."</td>";
-                            echo "</tr>";
-                        }
-                    }
-                    else if($nivel == "Nivel2"){
-                        $select = "SELECT * FROM Usuarios Where Nivel='$nivel'";
-                        $res = $conn->query($select);
-                        $dados = $res->fetchAll();
-                        foreach ($dados as $dado) {
-                            echo "<tr>";
-                            echo "<td>".$dado['Codigo']."</td>";
-                            echo "<td>".$dado['Nome']."</td>";
-                            echo "<td>".$dado['email']."</td>";
-                            echo "<td>".$dado['data_nascimento']."</td>";
-                            echo "<td>".$dado['Nivel']."</td>";
-                            echo "<td>".$dado['senha']."</td>";
-                            echo "<td>".$dado['foto']."</td>";
+                            echo "<td>" . htmlspecialchars($dado['Codigo']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['Nome']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['email']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['data_nascimento']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['Nivel']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['senha']) . "</td>";
+                            echo "<td><img src='" . htmlspecialchars($dado['foto']) . "' alt='foto_perfil'></td>";
                             echo "</tr>";
                         }
                     }
                 }
-            }
-            
-        ?>
-    </table>
+                ?>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>
