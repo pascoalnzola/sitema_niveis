@@ -1,10 +1,15 @@
+<?php
+    include("Banco_dados/config.php");
+    if(!isset($_SESSION['email_code'])){
+        header("Location: login.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esqueci minha Senha</title>
-    <link rel="stylesheet" href="estilo/estilo.css">
+    <title>Redifinir Senha</title>
 </head>
 <style>
     body {
@@ -83,32 +88,36 @@ main {
 <body>
     <header>
         <div class="user">
-            <h1>Esqueci minha Senha</h1>
+            <h1>Esqueci minha senha</h1>
         </div>
     </header>
     <main>
         <div id="reset-container">
-            <!-- Formulário de Solicitação de Redefinição de Senha -->
-            <div id="request-form">
-                <h2>Solicitar Redefinição de Senha</h2>
+            <!-- Formulário de Redefinição de Senha -->
+            <div id="reset-form">
+                <h2>Redefinir Senha</h2>
                 <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
-                    <label for="email">Email*</label>
-                    <input type="email" name="email" id="email" required> <br> <br>
-                    <input type="submit" value="Enviar Link de Redefinição" class="btn">
+                    <label for="new-password">Nova Senha*</label>
+                    <input type="password" name="new-password" id="new-password" required>
+                    <label for="confirm-password">Confirmar Nova Senha*</label>
+                    <input type="password" name="confirm-password" id="confirm-password" required> <br><br><br>
+                    <input type="submit" value="Redefinir Senha" class="btn">
                 </form>
             </div>
         </div>
     </main>
     <?php
-        include("Banco_dados/config.php");
-        if(isset($_POST['email']) && !empty($_POST['email'])){
-            $email = $_POST['email'];
-            $query = "SELECT * FROM Usuarios where email = '$email'";
-            $result = $conn->query($query)->fetch(PDO::FETCH_ASSOC);
-            if($email == $result['email']){
-                $_SESSION['id'] = $result['Codigo'];
-                $_SESSION['email_code'] = $result['email'];
-                include("rec.php");
+        if(isset($_POST['new-password']) && isset($_POST['confirm-password'])){
+            $novo = $_POST['new-password'];
+            $confirm = $_POST['confirm-password'];
+            if($novo == $confirm){
+                $cod = $_SESSION['id'];
+                $update = "UPDATE Usuarios SET senha = '$novo' WHERE Codigo =  $cod";
+                $res = $conn->query($update)->fetch(PDO::FETCH_ASSOC);
+                header("Location: login.php");
+            }
+            else{
+                echo "<script>alert('A senha não corresponde om a conirmação')</script>";
             }
         }
     ?>

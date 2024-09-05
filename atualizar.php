@@ -5,6 +5,7 @@
     }
     $nome = "";
     $email = "";
+    $email_rec = "";
     $data = "";
     $nivel = "";
     $senha = "";
@@ -29,22 +30,40 @@
         }
     }
     else
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["data"]) && isset($_POST["nivel"]) && isset($_POST["senha"])){
-            $cod = $_POST['id'];
-            $nome = $_POST['nome'];
-            $email = $_POST['email'];
-            $data = $_POST['data'];
-            $nivel = $_POST['nivel'];
-            $senha = $_POST['senha'];
-            $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo =  $cod";
-            $atual = $conn->query($atualiar);
-            if($cod == $_SESSION["user_id"]){
-                $_SESSION["usuario"] = $nome;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+        if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["data"]) && isset($_POST["nivel"]) && isset($_POST["senha"]) && isset($_POST["rec_email"]))
+            if(empty($_POST['foto'])){
+                $cod = $_POST['id'];
+                $nome = $_POST['nome'];
+                $email = $_POST['email'];
+                $data = $_POST['data'];
+                $nivel = $_POST['nivel'];
+                $senha = $_POST['senha'];
+                $email_rec = $_POST["rec_email"];
+                $foto = "imagens/".$_POST['foto'];
+                $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', email_rec = '$email_rec', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo =  $cod";
+                $atual = $conn->query($atualiar);
+                if($cod == $_SESSION["user_id"]){
+                    $_SESSION["usuario"] = $nome;
+                }
+                echo "<script>alert('Dados atualizado com sucesso!')</script>";
             }
-            echo "<script>alert('Dados atualizado com sucesso!')</script>";
-        }
-    }
+            else{
+                $cod = $_POST['id'];
+                $nome = $_POST['nome'];
+                $email = $_POST['email'];
+                $data = $_POST['data'];
+                $nivel = $_POST['nivel'];
+                $senha = $_POST['senha'];
+                $email_rec = $_POST["rec_email"];
+                $foto = "imagens/".$_POST['foto'];
+                $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', email_rec = '$email_rec', data_nascimento = '$data', Nivel = '$nivel', foto = '$foto', senha = '$senha' WHERE Codigo =  $cod";
+                $atual = $conn->query($atualiar);
+                if($cod == $_SESSION["user_id"]){
+                    $_SESSION["usuario"] = $nome;
+                }
+                echo "<script>alert('Dados atualizado com sucesso!')</script>";
+            }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -242,6 +261,8 @@
                 <input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" required>
                 <label for="email">Email*</label>
                 <input type="email" name="email" id="email" value="<?php echo $email; ?>" required>
+                <label for="rec_email">Email de Recuperação*</label>
+                <input type="email" name="rec_email" id="rec_email" value="<?php echo $email_rec; ?>">
                 <label for="data">Data de Nascimento*</label>
                 <input type="date" name="data" id="data" value="<?php echo $data; ?>" required>
                 <label for="nivel">Nível*</label>
@@ -251,6 +272,8 @@
                     <option value="Nivel1">Nível 1</option>
                     <option value="Nivel2">Nível 2</option>
                 </select>
+                <label for="foto">Foto de Perfil*</label>
+                <input type="file" name="foto" id="foto" accept="image/*" value="<?php echo $foto; ?>">
                 <label for="senha">Senha*</label>
                 <input type="password" name="senha" id="senha" value="<?php echo $senha; ?>" required>
                 <input type="submit" value="Atualizar" class="btn">

@@ -1,3 +1,9 @@
+<?php
+    include("Banco_dados/config.php");
+    if(!(isset($_SESSION['code']))){
+        header("Location: login.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -64,37 +70,58 @@ button:hover {
     margin-top: 20px;
     font-size: 15px;
 }
-
-
 </style>
 <body>
     <div class="container">
         <h2>Verificação de Dois Fatores</h2>
         <p>Insira o código que foi enviado para seu e-mail.</p>
-        <form id="verificationForm">
-            <input type="text" id="code" placeholder="Digite o código" required>
+        <form id="verificationForm" action="<?php echo $_SERVER['PHP_SELF']?>" method="get">
+            <input type="text" id="code" name="code" placeholder="Digite o código" required>
             <button type="submit">Verificar</button>
         </form>
+        <a href="login.php">Voltar no login</a>
         <p id="message"></p>
     </div>
-    <script src="script.js"></script>
+    <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            if(isset($_GET["code"])){
+                if($_GET['code'] == $_SESSION['code']){
+                    $mail = $_SESSION['email'];
+                    $query = "SELECT * FROM Usuarios where email = '$mail'";
+                    $result = $conn->query($query)->fetch(PDO::FETCH_ASSOC);
+                    if($result["Nivel"] == "Admin"){
+                        $_SESSION['perfil'] = $result['foto'];
+                        $_SESSION['user_id'] = $result['Codigo'];
+                        $_SESSION['usuario'] = $result['Nome'];
+                        $cont = 1;
+                        header("Location: index.php");
+                        return;
+                    }
+                    else if($result["Nivel"] == "Nivel1"){
+                        $_SESSION['perfil'] = $result['foto'];
+                        $_SESSION['user_id'] = $result['Codigo'];
+                        $_SESSION['usuario'] = $result['Nome'];
+                        $cont = 1;
+                        header("Location: nivel.php");
+                        return;
+                    }
+                    else if($result["Nivel"] == "Nivel2"){
+                        $_SESSION['perfil'] = $result['foto'];
+                        $_SESSION['user_id'] = $result['Codigo'];
+                        $_SESSION['usuario'] = $result['Nome'];
+                        $cont = 1;
+                        header("Location: nivel.php");
+                        return;
+                    }
+                }
+                else{
+                    echo "<script>alert('Código incorreto')</script>";
+                }
+                if($cont == 0){
+                    header("Location: login.php");
+                }
+            }
+        }
+    ?>
 </body>
-<script>
-    document.getElementById('verificationForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Impede o envio do formulário
-
-    const userCode = document.getElementById('code').value;
-    const correctCode = '123456'; // Suponha que este seja o código correto enviado por e-mail
-
-    const messageElement = document.getElementById('message');
-
-    if (userCode === correctCode) {
-        messageElement.style.color = 'green';
-        messageElement.textContent = 'Verificação bem-sucedida!';
-    } else {
-        messageElement.style.color = 'red';
-        messageElement.textContent = 'Código incorreto. Tente novamente.';
-    }
-});
-</script>
 </html>

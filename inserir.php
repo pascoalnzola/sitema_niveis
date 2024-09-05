@@ -165,8 +165,8 @@
                 <label for="email">Email*</label>
                 <input type="email" name="email" id="email" required>
                 
-                <label for="email_rec">Email de Recuperação*</label>
-                <input type="email" name="email_rec" id="email_rec" required>
+                <label for="rec_email">Email de Recuperação*</label>
+                <input type="email" name="rec_email" id="rec_email">
                 
                 <label for="data">Data de Nascimento*</label>
                 <input type="date" name="data" id="data" required>
@@ -189,13 +189,14 @@
         </div>
     </main>
     <?php
-        if(isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['data']) && isset($_POST['nivel']) && isset($_POST['senha']) && isset($_POST['foto'])
+        if(isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['data']) && isset($_POST['nivel']) && isset($_POST['senha']) && isset($_POST['foto']) && isset($_POST["rec_email"])
           && !empty($_POST['nome']) && !empty($_POST['email']) && !empty($_POST['data']) && !empty($_POST['nivel']) && !empty($_POST['senha'])){
             $nome = $_POST['nome'];
             $email = $_POST['email'];
             $data = $_POST['data'];
             $nivel = $_POST['nivel'];
             $senha = $_POST['senha'];
+            $email_rec = $_POST["rec_email"];
             $foto = "./imagens/".$_POST['foto'];
             $cosult = "SELECT * FROM Usuarios";
             $verif = $conn->query($cosult)->fetchAll();
@@ -205,7 +206,7 @@
                     return;
                 }
             }
-            $query = "INSERT INTO Usuarios Values(Default, '$nome', '$email','$data','$nivel','$senha','$foto')";
+            $query = "INSERT INTO Usuarios Values(Default, '$nome', '$email', '$email_rec', '$data', '$nivel', '$senha', '$foto')";
             $inserir = $conn->query($query);
             echo "<script>alert('Dados Cadastrado com sucesso!')</script>";
         }

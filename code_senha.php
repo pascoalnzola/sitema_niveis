@@ -1,10 +1,15 @@
+<?php
+    include("Banco_dados/config.php");
+    if(!isset($_SESSION['code_senha'])){
+        header("Location: esqueci.php");
+    }
+?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="ptt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esqueci minha Senha</title>
-    <link rel="stylesheet" href="estilo/estilo.css">
+    <title>Veriica o código</title>
 </head>
 <style>
     body {
@@ -81,34 +86,33 @@ main {
 
 </style>
 <body>
-    <header>
+<header>
         <div class="user">
-            <h1>Esqueci minha Senha</h1>
+            <h1>Verifique o código enviado</h1>
         </div>
     </header>
     <main>
         <div id="reset-container">
-            <!-- Formulário de Solicitação de Redefinição de Senha -->
-            <div id="request-form">
-                <h2>Solicitar Redefinição de Senha</h2>
+            <!-- Formulário de Redefinição de Senha -->
+            <div id="reset-form">
+                <h2>Redefinir Senha</h2>
                 <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
-                    <label for="email">Email*</label>
-                    <input type="email" name="email" id="email" required> <br> <br>
-                    <input type="submit" value="Enviar Link de Redefinição" class="btn">
+                    <label for="new-password">Código*</label>
+                    <input type="number" name="code" id="code" required>
+                    <br><br><br>
+                    <input type="submit" value="Verificar o código" class="btn">
                 </form>
+                <a href="esqueci.php">Voltar a solicitar_redefinição</a>
             </div>
         </div>
     </main>
     <?php
-        include("Banco_dados/config.php");
-        if(isset($_POST['email']) && !empty($_POST['email'])){
-            $email = $_POST['email'];
-            $query = "SELECT * FROM Usuarios where email = '$email'";
-            $result = $conn->query($query)->fetch(PDO::FETCH_ASSOC);
-            if($email == $result['email']){
-                $_SESSION['id'] = $result['Codigo'];
-                $_SESSION['email_code'] = $result['email'];
-                include("rec.php");
+        if(isset($_POST["code"]) && !empty($_POST['code'])){
+            if($_POST['code'] == $_SESSION['code_senha']){
+                header("Location: redifinir_senha.php");
+            }
+            else{
+                echo "<script>alert('Código incorreto')</script>";
             }
         }
     ?>

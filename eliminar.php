@@ -31,10 +31,11 @@
     }
     else
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["data"]) && isset($_POST["nivel"]) && isset($_POST["senha"])){
+        if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["data"]) && isset($_POST["nivel"]) && isset($_POST["senha"]) && isset($_POST["rec_email"])){
             $cod = $_POST['id'];
             $nome = $_POST['nome'];
             $email = $_POST['email'];
+            $email_rec = $_POST["rec_email"];
             $data = $_POST['data'];
             $nivel = $_POST['nivel'];
             $senha = $_POST['senha'];
@@ -249,6 +250,8 @@ main {
                     <input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" readonly>
                     <label for="email">Email*</label>
                     <input type="email" name="email" id="email" value="<?php echo $email; ?>" readonly>
+                    <label for="rec_email">Email de Recuperação*</label>
+                    <input type="email" name="rec_email" id="rec_email" value="<?php echo $email_rec; ?>">
                     <label for="data">Data de Nascimento*</label>
                     <input type="date" name="data" id="data" value="<?php echo $data; ?>" readonly>
                     <label for="nivel">Nível*</label>

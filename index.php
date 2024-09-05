@@ -186,6 +186,7 @@ main {
                     <th>Código</th>
                     <th>Nome</th>
                     <th>E-mail</th>
+                    <th>E-mail de Recuperação</th>
                     <th>Data de Nascimento</th>
                     <th>Nível</th>
                     <th>Senha</th>
@@ -205,6 +206,7 @@ main {
                             echo "<td>" . htmlspecialchars($dado['Codigo']) . "</td>";
                             echo "<td>" . htmlspecialchars($dado['Nome']) . "</td>";
                             echo "<td>" . htmlspecialchars($dado['email']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['email_rec']) . "</td>";
                             echo "<td>" . htmlspecialchars($dado['data_nascimento']) . "</td>";
                             echo "<td>" . htmlspecialchars($dado['Nivel']) . "</td>";
                             echo "<td>" . htmlspecialchars($dado['senha']) . "</td>";

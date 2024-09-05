@@ -9,6 +9,8 @@
     $nivel = "";
     $senha = "";
     $cod = "";
+    $email_rec = "";
+    $foto = "";
     $sel = "SELECT * FROM Usuarios Where Codigo = ".$_SESSION['user_id'];
     $res = $conn->query($sel);
     $dado = $res->fetch();
@@ -17,18 +19,35 @@
     $data = $dado['data_nascimento'];
     $nivel = $dado['Nivel'];
     $senha = $dado['senha'];
-
+    $foto = $dado['foto'];
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["data"]) && isset($_POST["nivel"]) && isset($_POST["senha"])){
-            $nome = $_POST['nome'];
-            $email = $_POST['email'];
-            $data = $_POST['data'];
-            $nivel = $_POST['nivel'];
-            $senha = $_POST['senha'];
-            $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
-            $atual = $conn->query($atualiar);
-            $_SESSION['usuario'] = $nome;
-            echo "<script>aler('Dados atualizado com sucesso!')</script>";
+        if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["data"]) && isset($_POST["nivel"]) && isset($_POST["senha"]) && isset($_POST["rec_email"])){
+            if(empty($_POST['foto'])){
+                $nome = $_POST['nome'];
+                $email = $_POST['email'];
+                $data = $_POST['data'];
+                $nivel = $_POST['nivel'];
+                $senha = $_POST['senha'];
+                $email_rec = $_POST["rec_email"];
+                //$foto = "imagens/".$_POST['foto'];
+                $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
+                $atual = $conn->query($atualiar);
+                $_SESSION['usuario'] = $nome;
+                echo "<script>aler('Dados atualizado com sucesso!')</script>";
+            }
+            else{
+                $nome = $_POST['nome'];
+                $email = $_POST['email'];
+                $data = $_POST['data'];
+                $nivel = $_POST['nivel'];
+                $senha = $_POST['senha'];
+                $email_rec = $_POST["rec_email"];
+                $foto = "imagens/".$_POST['foto'];
+                $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', foto = '$foto', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
+                $atual = $conn->query($atualiar);
+                $_SESSION['usuario'] = $nome;
+                echo "<script>aler('Dados atualizado com sucesso!')</script>";
+            }
         }
     }
 ?>
@@ -202,6 +221,9 @@ main {
                 
                 <label for="email">Email*</label>
                 <input type="email" name="email" id="email" value="<?php echo $email; ?>" required>
+
+                <label for="rec_email">Email de Recuperação*</label>
+                <input type="email" name="rec_email" id="rec_email" value="<?php echo $email_rec; ?>">
                 
                 <label for="data">Data de Nascimento*</label>
                 <input type="date" name="data" id="data" value="<?php echo $data; ?>" required>
@@ -214,7 +236,7 @@ main {
                 </select>
                 
                 <label for="foto">Foto de Perfil*</label>
-                <input type="file" name="foto" id="foto" accept="image/*">
+                <input type="file" name="foto" id="foto" accept="image/*" value="<?php echo $foto; ?>">
                 
                 <label for="senha">Senha*</label>
                 <input type="password" name="senha" id="senha" value="<?php echo $senha; ?>" required>
