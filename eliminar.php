@@ -9,6 +9,7 @@
     $nivel = "";
     $senha = "";
     $cod = "";
+    $email_rec = "";
     if($_SERVER['REQUEST_METHOD'] === 'GET'){
         if(isset($_GET['codigo']) && !empty($_GET['codigo'])){
             $cod = $_GET['codigo'];
@@ -19,6 +20,7 @@
                 $cod = $res['Codigo'];
                 $nome = $res['Nome'];
                 $email = $res['email'];
+                $email_rec = $res['email_rec'];
                 $data = $res['data_nascimento'];
                 $nivel = $res['Nivel'];
                 $senha = $res['senha'];
