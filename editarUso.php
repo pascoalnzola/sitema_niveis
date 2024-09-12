@@ -19,7 +19,7 @@
     $senha = $dado['senha'];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["data"]) && isset($_POST["nivel"]) && isset($_POST["senha"])){
+        if(empty($_POST['nome'])){
             $nome = $_POST['nome'];
             $email = $_POST['email'];
             $data = $_POST['data'];

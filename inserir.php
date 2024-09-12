@@ -19,45 +19,58 @@
     padding: 0;
     background: #f5f5f5;
     }
-
     header {
-        background-color: #ffffff;
-        border-bottom: 2px solid #ddd;
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f4f4f4; /* Cor de fundo */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra leve */
+}
 
-    .user {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
+header .user {
+    display: flex;
+    align-items: center;
+}
 
-    .user img {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
+header .user img {
+    width: 50px; /* Tamanho da imagem de perfil */
+    height: 50px;
+    border-radius: 50%; /* Deixa a imagem circular */
+    margin-right: 10px;
+    object-fit: cover; /* Garante que a imagem se ajuste ao contêiner */
+}
 
-    .user h1 {
-        margin: 0;
-        font-size: 24px;
-        color: #333;
-    }
+header .user h1 {
+    font-size: 18px;
+    color: #333;
+}
 
-    .admin-form {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+header .items nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px; /* Espaçamento entre os itens */
+}
 
-    .admin-form form {
-        display: flex;
-        align-items: center;
-    }
+header .items nav ul li {
+    display: inline;
+}
+
+header .items nav ul li a {
+    text-decoration: none;
+    color: #007bff; /* Cor dos links */
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+header .items nav ul li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
 
     select, input[type="submit"] {
         width: 150px;
@@ -135,26 +148,97 @@
     .btn:hover {
         background-color: #333;
     }
+    /* Barra lateral */
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    z-index: 1; /* Garante que a barra lateral fique sobreposta ao conteúdo */
+}
+
+/* Ajuste do header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-left: -25px; /* Espaço para a barra lateral */
+    z-index: 2;
+    position: fixed;
+    width: calc(100% - 250px); /* Ajusta a largura do header */
+    top: 0;
+}
+/* Estilo para ajustar o conteúdo principal e a tabela */
+.content {
+    margin-left: 250px; /* Espaço à esquerda para a barra lateral */
+    padding: 20px;
+    width: calc(100% - 250px); /* Ajusta a largura para ocupar o restante da página */
+    margin-top: 70px; /* Espaço para não sobrepor o header */
+}
+aside nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+    gap: 20px; /* Espaçamento entre os itens */
+}
+
+aside .items nav ul li {
+    display: block;
+}
+
+aside nav ul li a {
+    text-decoration: none;
+    color: #007bff; /* Cor dos links */
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+aside  nav ul li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+nav ul{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+nav ul li{
+    justify-content: space-between;
+}
 </style>
 <body>
-    <header>
-        <div class="user">
-            <img src="<?php echo $_SESSION['perfil']; ?>" alt="foto_perfil">
-            <h1><?php echo $_SESSION["usuario"]; ?></h1>
-        </div>
-        <div class="admin-form">
-            <form action="admin.php" method="post">
-                <select name="Admin" id="Admin">
-                    <option value="inserir">Inserir Usuário</option>
-                    <option value="">Admin</option>
-                    <option value="editar">Editar Perfil</option>
-                    <option value="eliminar">Eliminar Usuário</option>
-                    <option value="atualizar">Atualizar Usuário</option>
-                </select>
-                <input type="submit" value="Aplicar" class="btn">
-            </form>
-        </div>
-    </header>
+<div class="container">
+    <aside class="sidebar">
+        <h2>Ajustes</h2>
+       <nav>
+            <ul>
+                <li><a href="index.php">Admin</a></li> <br>
+                <li><a href="editar.php">Editar Perfil</a></li> <br>
+                <li><a href="inserir.php">Inserir Usuário</a></li> <br>
+                <li><a href="eliminar.php">Eliminar Usuário</a></li> <br>
+                <li><a href="atualizar.php">Atualizar Usuário</a></li> <br>
+            </ul>
+       </nav>
+    </aside>
+
+    <div class="content">
+        <header>
+            <div class="user">
+                <img src="<?php echo $_SESSION['perfil']; ?>" alt="foto_perfil">
+                <h1><?php echo $_SESSION["usuario"]; ?></h1>
+            </div>
+        </header>
     <main>
         <div id="insert">
             <h1>Inserir Usuário</h1>
@@ -189,15 +273,14 @@
         </div>
     </main>
     <?php
-        if(isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['data']) && isset($_POST['nivel']) && isset($_POST['senha']) && isset($_POST['foto']) && isset($_POST["rec_email"])
-          && !empty($_POST['nome']) && !empty($_POST['email']) && !empty($_POST['data']) && !empty($_POST['nivel']) && !empty($_POST['senha'])){
+        if(!empty($_POST['nome'])){
             $nome = $_POST['nome'];
             $email = $_POST['email'];
             $data = $_POST['data'];
             $nivel = $_POST['nivel'];
             $senha = $_POST['senha'];
             $email_rec = $_POST["rec_email"];
-            $foto = "./imagens/".$_POST['foto'];
+            $foto = "imagens/".$_POST['foto'];
             $cosult = "SELECT * FROM Usuarios";
             $verif = $conn->query($cosult)->fetchAll();
             foreach($verif as $ve){
@@ -206,7 +289,12 @@
                     return;
                 }
             }
-            $query = "INSERT INTO Usuarios Values(Default, '$nome', '$email', '$email_rec', '$data', '$nivel', '$senha', '$foto')";
+            if(empty($_POST["rec_email"])){
+                $query = "INSERT INTO Usuarios Values(Default, '$nome', '$email', '$email', '$data', '$nivel', '$senha', '$foto')";   
+            }
+            else{
+                $query = "INSERT INTO Usuarios Values(Default, '$nome', '$email', '$email_rec', '$data', '$nivel', '$senha', '$foto')";
+            }
             $inserir = $conn->query($query);
             echo "<script>alert('Dados Cadastrado com sucesso!')</script>";
         }

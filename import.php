@@ -5,15 +5,14 @@
     }
 ?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-bt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema</title>
-    <link rel="stylesheet" href="estilo/estilo.css">
+    <title>Importar Dados</title>
 </head>
 <style>
-    body {
+ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -54,19 +53,20 @@ header .user h1 {
     font-size: 18px;
     color: #333;
 }
-aside nav ul {
+
+header .items nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: block;
+    display: flex;
     gap: 20px; /* Espaçamento entre os itens */
 }
 
-aside .items nav ul li {
-    display: block;
+header .items nav ul li {
+    display: inline;
 }
 
-aside nav ul li a {
+header .items nav ul li a {
     text-decoration: none;
     color: #007bff; /* Cor dos links */
     font-weight: bold;
@@ -74,8 +74,7 @@ aside nav ul li a {
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
-
-aside  nav ul li a:hover {
+header .items nav ul li a:hover {
     background-color: #007bff;
     color: #fff;
 }
@@ -145,6 +144,16 @@ main {
     text-align: center;
     margin-bottom: 20px;
 }
+
+.user-table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .user-table th, .user-table td {
     border: 1px solid #ddd;
     padding: 12px;
@@ -165,7 +174,6 @@ main {
     width: 300px;
     height: 35px;
 }
-/* Barra lateral */
 .sidebar {
     width: 200px;
     background-color: #f4f4f4;
@@ -200,15 +208,38 @@ header {
     width: calc(100% - 250px); /* Ajusta a largura para ocupar o restante da página */
     margin-top: 70px; /* Espaço para não sobrepor o header */
 }
+aside nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+    gap: 20px; /* Espaçamento entre os itens */
+}
 
-/* Ajuste da tabela */
-.user-table {
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 1000px;
-    margin: 20px auto; /* Distância entre a tabela e as bordas */
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+aside .items nav ul li {
+    display: block;
+}
+
+aside nav ul li a {
+    text-decoration: none;
+    color: #007bff; /* Cor dos links */
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+aside  nav ul li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+nav ul{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+nav ul li{
+    justify-content: space-between;
 }
 </style>
 <body>
@@ -234,63 +265,15 @@ header {
                 <h1><?php echo $_SESSION["usuario"]; ?></h1>
             </div>
         </header>
-
-        <main>
-            <div class="logout-button">
-                <a href="sair.php">Sair</a>
-            </div>
-            <div class="title-container">
-                <h1>Usuários Cadastrados</h1>
-            </div>
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" id="filter-form">
-                <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar">
-                <select name="niveis" id="niveis">
-                    <option value="Todos">Todos</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Nivel1">Nível 1</option>
-                    <option value="Nivel2">Nível 2</option>
-                </select>
-                <input type="submit" value="Aplicar" class="btn">
-            </form>
-            <table class="user-table">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>E-mail</th>
-                        <th>E-mail de Recuperação</th>
-                        <th>Data de Nascimento</th>
-                        <th>Nível</th>
-                        <th>Senha</th>
-                        <th>Foto de Perfil</th>
-                    </tr>
-                </thead>
-            <tbody>
-                <?php
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    if (isset($_GET['niveis'])) {
-                        $nivel = $_GET['niveis'];
-                        $select = $nivel == "Todos" ? "SELECT * FROM Usuarios" : "SELECT * FROM Usuarios WHERE Nivel='$nivel'";
-                        $res = $conn->query($select);
-                        $dados = $res->fetchAll();
-                        foreach ($dados as $dado) {
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($dado['Codigo']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['Nome']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['email']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['email_rec']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['data_nascimento']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['Nivel']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['senha']) . "</td>";
-                            echo "<td><img src='" . htmlspecialchars($dado['foto']) . "' alt='foto_perfil'></td>";
-                            echo "</tr>";
-                        }
-                    }
-                }
-                ?>
-            </tbody>
-        </table>
+    <main>
+        <div class="title-container">
+            <h1>Cadastrar por importação</h1>
+        </div>
+        <form action="processar.php" method="post" enctype="multipart/form-data">
+            <label for="arquivo">Importar Arquivo</label>
+            <input type="file" name="arquivo" id="arquivo">
+            <input type="submit" value="Importar">
+        </form>
     </main>
-</div> 
 </body>
 </html>

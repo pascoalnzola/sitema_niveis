@@ -21,33 +21,31 @@
     $senha = $dado['senha'];
     $foto = $dado['foto'];
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["data"]) && isset($_POST["nivel"]) && isset($_POST["senha"]) && isset($_POST["rec_email"])){
-            if(empty($_POST['foto'])){
-                $nome = $_POST['nome'];
-                $email = $_POST['email'];
-                $data = $_POST['data'];
-                $nivel = $_POST['nivel'];
-                $senha = $_POST['senha'];
-                $email_rec = $_POST["rec_email"];
-                //$foto = "imagens/".$_POST['foto'];
-                $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
-                $atual = $conn->query($atualiar);
-                $_SESSION['usuario'] = $nome;
-                echo "<script>aler('Dados atualizado com sucesso!')</script>";
-            }
-            else{
-                $nome = $_POST['nome'];
-                $email = $_POST['email'];
-                $data = $_POST['data'];
-                $nivel = $_POST['nivel'];
-                $senha = $_POST['senha'];
-                $email_rec = $_POST["rec_email"];
-                $foto = "imagens/".$_POST['foto'];
-                $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', foto = '$foto', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
-                $atual = $conn->query($atualiar);
-                $_SESSION['usuario'] = $nome;
-                echo "<script>aler('Dados atualizado com sucesso!')</script>";
-            }
+        if(empty($_POST['foto'])){
+            $nome = $_POST['nome'];
+            $email = $_POST['email'];
+            $data = $_POST['data'];
+            $nivel = $_POST['nivel'];
+            $senha = $_POST['senha'];
+            $email_rec = $_POST["rec_email"];
+            //$foto = "imagens/".$_POST['foto'];
+            $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
+            $atual = $conn->query($atualiar);
+            $_SESSION['usuario'] = $nome;
+            echo "<script>aler('Dados atualizado com sucesso!')</script>";
+        }
+        else{
+            $nome = $_POST['nome'];
+            $email = $_POST['email'];
+            $data = $_POST['data'];
+            $nivel = $_POST['nivel'];
+            $senha = $_POST['senha'];
+            $email_rec = $_POST["rec_email"];
+            $foto = "imagens/".$_POST['foto'];
+            $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', foto = '$foto', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
+            $atual = $conn->query($atualiar);
+            $_SESSION['usuario'] = $nome;
+            echo "<script>aler('Dados atualizado com sucesso!')</script>";
         }
     }
 ?>
@@ -68,31 +66,56 @@
 }
 
 header {
-    background-color: #ffffff;
-    border-bottom: 2px solid #ddd;
-    padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 20px;
+    background-color: #f4f4f4; /* Cor de fundo */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra leve */
 }
 
-.user {
+header .user {
     display: flex;
     align-items: center;
-    gap: 15px;
 }
 
-.user img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
+header .user img {
+    width: 50px; /* Tamanho da imagem de perfil */
+    height: 50px;
+    border-radius: 50%; /* Deixa a imagem circular */
+    margin-right: 10px;
+    object-fit: cover; /* Garante que a imagem se ajuste ao contêiner */
 }
 
-.user h1 {
-    margin: 0;
-    font-size: 24px;
+header .user h1 {
+    font-size: 18px;
     color: #333;
+}
+
+header .items nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px; /* Espaçamento entre os itens */
+}
+
+header .items nav ul li {
+    display: inline;
+}
+
+header .items nav ul li a {
+    text-decoration: none;
+    color: #007bff; /* Cor dos links */
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+header .items nav ul li a:hover {
+    background-color: #007bff;
+    color: #fff;
 }
 
 .admin-form {
@@ -191,27 +214,96 @@ main {
 .edit-profile-section .btn.edit-btn:hover {
     background-color: #0056b3;
 }
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    z-index: 1; /* Garante que a barra lateral fique sobreposta ao conteúdo */
+}
 
+/* Ajuste do header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-left: -25px; /* Espaço para a barra lateral */
+    z-index: 2;
+    position: fixed;
+    width: calc(100% - 250px); /* Ajusta a largura do header */
+    top: 0;
+}
+/* Estilo para ajustar o conteúdo principal e a tabela */
+.content {
+    margin-left: 250px; /* Espaço à esquerda para a barra lateral */
+    padding: 20px;
+    width: calc(100% - 250px); /* Ajusta a largura para ocupar o restante da página */
+    margin-top: 70px; /* Espaço para não sobrepor o header */
+}
+aside nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+    gap: 20px; /* Espaçamento entre os itens */
+}
+
+aside .items nav ul li {
+    display: block;
+}
+
+aside nav ul li a {
+    text-decoration: none;
+    color: #007bff; /* Cor dos links */
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+aside  nav ul li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+nav ul{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+nav ul li{
+    justify-content: space-between;
+}
 </style>
 <body>
-    <header>
-        <div class="user">
-            <img src="<?php echo $_SESSION['perfil']; ?>" alt="foto_perfil">
-            <h1><?php echo $_SESSION["usuario"]; ?></h1>
-        </div>
-        <div class="admin-form">
-            <form action="admin.php" method="post">
-                <select name="Admin" id="Admin">
-                    <option value="editar">Editar Perfil</option>
-                    <option value="">Admin</option>
-                    <option value="eliminar">Eliminar Usuário</option>
-                    <option value="inserir">Inserir Usuário</option>
-                    <option value="atualizar">Atualizar Usuário</option>
-                </select>
-                <input type="submit" value="Aplicar" class="btn">
-            </form>
-        </div>
-    </header>
+<div class="container">
+    <aside class="sidebar">
+        <h2>Ajustes</h2>
+       <nav>
+            <ul>
+                <li><a href="index.php">Admin</a></li> <br>
+                <li><a href="editar.php">Editar Perfil</a></li> <br>
+                <li><a href="inserir.php">Inserir Usuário</a></li> <br>
+                <li><a href="eliminar.php">Eliminar Usuário</a></li> <br>
+                <li><a href="atualizar.php">Atualizar Usuário</a></li> <br>
+            </ul>
+       </nav>
+    </aside>
+
+    <div class="content">
+        <header>
+            <div class="user">
+                <img src="<?php echo $_SESSION['perfil']; ?>" alt="foto_perfil">
+                <h1><?php echo $_SESSION["usuario"]; ?></h1>
+            </div>
+        </header>
     <main>
         <section class="edit-profile-section">
             <h1>Editar Perfil</h1>
