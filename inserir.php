@@ -246,6 +246,9 @@ nav ul li{
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
                 <label for="nome">Nome*</label>
                 <input type="text" name="nome" id="nome" required>
+
+                <label for="nome">BI*</label>
+                <input type="text" name="bi" id="bi" required>
                 
                 <label for="email">Email*</label>
                 <input type="email" name="email" id="email" required>
@@ -281,6 +284,7 @@ nav ul li{
             $nivel = $_POST['nivel'];
             $senha = $_POST['senha'];
             $email_rec = $_POST["rec_email"];
+            $bi = $_POST['bi'];
             $foto = "imagens/".$_POST['foto'];
             $cosult = "SELECT * FROM Usuarios";
             $verif = $conn->query($cosult)->fetchAll();
@@ -291,10 +295,10 @@ nav ul li{
                 }
             }
             if(empty($_POST["rec_email"])){
-                $query = "INSERT INTO Usuarios Values(Default, '$nome', '$email', '$email', '$data', '$nivel', '$senha', '$foto')";   
+                $query = "INSERT INTO Usuarios Values(Default, '$nome', '$bi', '$email', '$email', '$data', '$nivel', '$senha', '$foto')";   
             }
             else{
-                $query = "INSERT INTO Usuarios Values(Default, '$nome', '$email', '$email_rec', '$data', '$nivel', '$senha', '$foto')";
+                $query = "INSERT INTO Usuarios Values(Default, '$nome', '$bi', '$email', '$email_rec', '$data', '$nivel', '$senha', '$foto')";
             }
             $inserir = $conn->query($query);
             echo "<script>alert('Dados Cadastrado com sucesso!')</script>";

@@ -14,6 +14,7 @@
     $res = $conn->query($sel)->fetch(PDO::FETCH_ASSOC);
     $_SESSION["usuario"] = $res['Nome'];
     $_SESSION['email_code'] = $res['email'];
+    $email_rec = $res['email_rec'];
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         try{
             //$mail->SMTPDebug = SMTP::DEBUG_SERVER;
@@ -25,7 +26,7 @@
             $mail->Port = 587;
     
             $mail->setFrom('pascoaltondo.code@gmail.com');
-            $mail->addAddress("$email");
+            $mail->addAddress("$email_rec");
     
             $min = 1010;
             $max = 9998;

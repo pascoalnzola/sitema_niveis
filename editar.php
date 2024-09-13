@@ -11,10 +11,12 @@
     $cod = "";
     $email_rec = "";
     $foto = "";
+    $bi = "";
     $sel = "SELECT * FROM Usuarios Where Codigo = ".$_SESSION['user_id'];
     $res = $conn->query($sel);
     $dado = $res->fetch();
     $nome = $dado['Nome'];
+    $bi = $dado['N_BI'];
     $email = $dado['email'];
     $data = $dado['data_nascimento'];
     $nivel = $dado['Nivel'];
@@ -23,19 +25,21 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(empty($_POST['foto'])){
             $nome = $_POST['nome'];
+            $bi = $_POST['bi'];
             $email = $_POST['email'];
             $data = $_POST['data'];
             $nivel = $_POST['nivel'];
             $senha = $_POST['senha'];
             $email_rec = $_POST["rec_email"];
             //$foto = "imagens/".$_POST['foto'];
-            $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
+            $atualiar = "UPDATE Usuarios SET Nome = '$nome', N_BI = '$bi', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
             $atual = $conn->query($atualiar);
             $_SESSION['usuario'] = $nome;
             echo "<script>aler('Dados atualizado com sucesso!')</script>";
         }
         else{
             $nome = $_POST['nome'];
+            $bi = $_POST['bi'];
             $email = $_POST['email'];
             $data = $_POST['data'];
             $nivel = $_POST['nivel'];
@@ -312,6 +316,9 @@ nav ul li{
                 <label for="nome">Nome*</label>
                 <input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" required>
                 
+                <label for="nome">BI*</label>
+                <input type="text" name="bi" id="bi" value="<?php echo $bi; ?>" required>
+
                 <label for="email">Email*</label>
                 <input type="email" name="email" id="email" value="<?php echo $email; ?>" required>
 

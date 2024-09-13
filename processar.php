@@ -305,12 +305,11 @@ header {
                                 foreach($valor as $valor1){
                                     if($email == $valor1["email"]){
                                         echo "<script>alert('Email já cadastrado $email')</script>";
+                                        return;
                                     }
-                                    else{
-                                        $query = "INSERT INTO Usuarios Values(default, '$nome','$bi', '$email', '$email_rec', '$data_nascimento', '$nivel', '$senha', '$foto')";
-                                        $res = $conn->query($query);
-                                    }
-                                }   
+                                } 
+                                $query = "INSERT INTO Usuarios Values(default, '$nome','$bi', '$email', '$email_rec', '$data_nascimento', '$nivel', '$senha', '$foto')";
+                                $res = $conn->query($query);  
                             }
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($nome) . "</td>";

@@ -10,6 +10,7 @@
     $nivel = "";
     $senha = "";
     $cod = "";
+    $bi = "";
     if($_SERVER['REQUEST_METHOD'] === 'GET'){
         if(isset($_GET['codigo']) && !empty($_GET['codigo'])){
             $cod = $_GET['codigo'];
@@ -24,6 +25,7 @@
                 $data = $res['data_nascimento'];
                 $nivel = $res['Nivel'];
                 $senha = $res['senha'];
+                $bi = $res['N_BI'];
             }
             else{
                 echo "<script>alert('Os dados pesquisados não existem!')</script>";
@@ -36,6 +38,7 @@
             if(empty($_POST['foto'])){
                 $cod = $_POST['id'];
                 $nome = $_POST['nome'];
+                $bi = $_POST['bi'];
                 $email = $_POST['email'];
                 $data = $_POST['data'];
                 $nivel = $_POST['nivel'];
@@ -52,13 +55,14 @@
             else{
                 $cod = $_POST['id'];
                 $nome = $_POST['nome'];
+                $bi = $_POST['bi'];
                 $email = $_POST['email'];
                 $data = $_POST['data'];
                 $nivel = $_POST['nivel'];
                 $senha = $_POST['senha'];
                 $email_rec = $_POST["rec_email"];
                 $foto = "imagens/".$_POST['foto'];
-                $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', email_rec = '$email_rec', data_nascimento = '$data', Nivel = '$nivel', foto = '$foto', senha = '$senha' WHERE Codigo =  $cod";
+                $atualiar = "UPDATE Usuarios SET Nome = '$nome', N_BI = '$bi', email = '$email', email_rec = '$email_rec', data_nascimento = '$data', Nivel = '$nivel', foto = '$foto', senha = '$senha' WHERE Codigo =  $cod";
                 $atual = $conn->query($atualiar);
                 if($cod == $_SESSION["user_id"]){
                     $_SESSION["usuario"] = $nome;
@@ -356,6 +360,8 @@ nav ul li{
                 <input type="text" name="id" id="id" value="<?php echo $cod; ?>" readonly>
                 <label for="nome">Nome*</label>
                 <input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" required>
+                <label for="nome">BI*</label>
+                <input type="text" name="bi" id="bi" value="<?php echo $bi; ?>" required>
                 <label for="email">Email*</label>
                 <input type="email" name="email" id="email" value="<?php echo $email; ?>" required>
                 <label for="rec_email">Email de Recuperação*</label>

@@ -16,8 +16,8 @@
   <AllowPNG/>
  </OfficeDocumentSettings>
  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
-  <WindowHeight>7485</WindowHeight>
-  <WindowWidth>20490</WindowWidth>
+  <WindowHeight>11160</WindowHeight>
+  <WindowWidth>20730</WindowWidth>
   <WindowTopX>32767</WindowTopX>
   <WindowTopY>32767</WindowTopY>
   <ProtectStructure>False</ProtectStructure>
@@ -32,22 +32,22 @@
    <NumberFormat/>
    <Protection/>
   </Style>
-  <Style ss:ID="s62" ss:Name="Hiperligação">
+  <Style ss:ID="s16" ss:Name="Hiperligação">
    <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#0563C1"
     ss:Underline="Single"/>
   </Style>
-  <Style ss:ID="s64">
+  <Style ss:ID="s18">
    <NumberFormat ss:Format="Short Date"/>
   </Style>
-  <Style ss:ID="s65">
+  <Style ss:ID="s19">
    <Alignment ss:Vertical="Center" ss:WrapText="1"/>
   </Style>
  </Styles>
  <Worksheet ss:Name="Folha1">
-  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="3" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="8" ss:ExpandedRowCount="3" x:FullColumns="1"
    x:FullRows="1" ss:DefaultRowHeight="15">
-   <Column ss:AutoFitWidth="0" ss:Width="185.25"/>
-   <Column ss:AutoFitWidth="0" ss:Width="151.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="185.25" ss:Span="1"/>
+   <Column ss:Index="3" ss:AutoFitWidth="0" ss:Width="151.5"/>
    <Column ss:AutoFitWidth="0" ss:Width="173.25"/>
    <Column ss:AutoFitWidth="0" ss:Width="114"/>
    <Column ss:AutoFitWidth="0" ss:Width="81"/>
@@ -55,6 +55,7 @@
    <Column ss:AutoFitWidth="0" ss:Width="135.75"/>
    <Row>
     <Cell><Data ss:Type="String">Nome</Data></Cell>
+    <Cell><Data ss:Type="String">BI</Data></Cell>
     <Cell><Data ss:Type="String">email</Data></Cell>
     <Cell><Data ss:Type="String">email_rec</Data></Cell>
     <Cell><Data ss:Type="String">data_nascimento</Data></Cell>
@@ -64,25 +65,27 @@
    </Row>
    <Row>
     <Cell><Data ss:Type="String">Jose Capewa</Data></Cell>
-    <Cell ss:StyleID="s62" ss:HRef="mailto:capewajose@gmail.com"><Data
+    <Cell><Data ss:Type="String">008122248LA042</Data></Cell>
+    <Cell ss:StyleID="s16" ss:HRef="mailto:capewajose@gmail.com"><Data
       ss:Type="String">capewajose@gmail.com</Data></Cell>
-    <Cell ss:StyleID="s62" ss:HRef="mailto:ilcode851@gmail.com"><Data
+    <Cell ss:StyleID="s16" ss:HRef="mailto:ilcode851@gmail.com"><Data
       ss:Type="String">ilcode851@gmail.com</Data></Cell>
-    <Cell ss:StyleID="s64"><Data ss:Type="DateTime">2006-08-19T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="DateTime">2006-08-19T00:00:00.000</Data></Cell>
     <Cell><Data ss:Type="String">Nivel1</Data></Cell>
     <Cell><Data ss:Type="String">cap1</Data></Cell>
-    <Cell ss:StyleID="s65"><Data ss:Type="String">imagens/pasc.jpeg</Data></Cell>
+    <Cell ss:StyleID="s19"><Data ss:Type="String">imagens/pasc.jpeg</Data></Cell>
    </Row>
    <Row>
     <Cell><Data ss:Type="String">fabiola</Data></Cell>
-    <Cell ss:StyleID="s62" ss:HRef="mailto:cumbicafabiola@gmail.com"><Data
+    <Cell><Data ss:Type="String">008134248LA042</Data></Cell>
+    <Cell ss:StyleID="s16" ss:HRef="mailto:cumbicafabiola@gmail.com"><Data
       ss:Type="String">cumbicafabiola@gmail.com</Data></Cell>
-    <Cell ss:StyleID="s62" ss:HRef="mailto:pascoalnzolaondo@gmail.com"><Data
+    <Cell ss:StyleID="s16" ss:HRef="mailto:pascoalnzolaondo@gmail.com"><Data
       ss:Type="String">pascoalnzolaondo@gmail.com</Data></Cell>
-    <Cell ss:StyleID="s64"><Data ss:Type="DateTime">2006-06-10T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s18"><Data ss:Type="DateTime">2006-06-10T00:00:00.000</Data></Cell>
     <Cell><Data ss:Type="String">Nivel2</Data></Cell>
     <Cell><Data ss:Type="String">fab1</Data></Cell>
-    <Cell ss:StyleID="s65"><Data ss:Type="String">imagens/pasc.jpeg</Data></Cell>
+    <Cell ss:StyleID="s19"><Data ss:Type="String">imagens/pasc.jpeg</Data></Cell>
    </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
@@ -96,7 +99,7 @@
     <Pane>
      <Number>3</Number>
      <ActiveRow>2</ActiveRow>
-     <ActiveCol>6</ActiveCol>
+     <ActiveCol>1</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>

@@ -7,7 +7,7 @@
     }
 
     // Inicializando variáveis
-    $nome = $email = $data = $nivel = $senha = $cod = $email_rec = "";
+    $nome = $bi = $email = $data = $nivel = $senha = $cod = $email_rec = "";
 
     // Tratamento de requisição GET (para pesquisar usuário pelo código)
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -21,6 +21,7 @@
                 $res = $select->fetch();
                 $cod = $res['Codigo'];
                 $nome = $res['Nome'];
+                $bi = $res['N_BI'];
                 $email = $res['email'];
                 $email_rec = $res['email_rec'];
                 $data = $res['data_nascimento'];
@@ -345,6 +346,8 @@ nav ul li{
                     <input type="text" name="id" id="id" value="<?php echo $cod; ?>" readonly>
                     <label for="nome">Nome*</label>
                     <input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" readonly>
+                    <label for="nome">BI*</label>
+                    <input type="text" name="bi" id="bi" value="<?php echo $bi; ?>" required>
                     <label for="email">Email*</label>
                     <input type="email" name="email" id="email" value="<?php echo $email; ?>" readonly>
                     <label for="rec_email">Email de Recuperação*</label>
