@@ -1,7 +1,9 @@
 <?php
-   include("Banco_dados/config.php");
-    if(!isset($_SESSION["user_id"])){
+    include("Banco_dados/config.php");
+    // Verifica se o usuário está logado
+    if (!isset($_SESSION["user_id"])) {
         header("Location: login.php");
+        exit();
     }
 ?>
 <!DOCTYPE html>
@@ -10,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Processar</title>
+    <title>Exportar dados</title>
 </head>
 <style>
 body {
@@ -265,14 +267,27 @@ header {
 
             <main>
                 <div class="title-container">
-                    <h1>Dados da importação</h1>
+                    <h1>Exportar Usuarios</h1>
+                </div>
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" id="filter-form">
+                    <select name="niveis" id="niveis">
+                        <option value="Todos">Todos</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Nivel1">Nível 1</option>
+                        <option value="Nivel2">Nível 2</option>
+                    </select>
+                    <input type="submit" value="Aplicar" class="btn">
+                </form>
+                <div class="logout-button">
+                    <a href="planilha.php">Exportar</a>
                 </div>
                 <table class="user-table">
                     <thead>
                         <tr>
+                            <th>Código</th>
                             <th>Nome</th>
-                            <th>E-mail</th>
                             <th>BI</th>
+                            <th>E-mail</th>
                             <th>E-mail de Recuperação</th>
                             <th>Data de Nascimento</th>
                             <th>Nível</th>
@@ -282,53 +297,29 @@ header {
                     </thead>
                     <tbody>
                         <?php
-                if(isset($_FILES['arquivo']) && !empty($_FILES['arquivo']['tmp_name'])){
-                    $arquivo = new DOMDocument();
-                    $arquivo->load($_FILES['arquivo']['tmp_name']);
-                    $linhas = $arquivo->getElementsByTagName("Row");
-                    //var_dump($linhas);
-                    $primeira = true;
-                    foreach($linhas as $linha){
-                        if($primeira == false){
-                            $nome = $linha->getElementsByTagName("Data")->item(0)->nodeValue;
-                            $bi = $linha->getElementsByTagName("Data")->item(1)->nodeValue;
-                            $email = $linha->getElementsByTagName("Data")->item(2)->nodeValue;
-                            $email_rec = $linha->getElementsByTagName("Data")->item(3)->nodeValue;
-                            $data_nascimento = $linha->getElementsByTagName("Data")->item(4)->nodeValue;
-                            $nivel = $linha->getElementsByTagName("Data")->item(5)->nodeValue;
-                            $senha = $linha->getElementsByTagName("Data")->item(6)->nodeValue;
-                            $foto = $linha->getElementsByTagName("Data")->item(7)->nodeValue;
-                            $query = "SELECT * FROM Usuarios";
-                            $res = $conn->query($query);
-                            if($res->rowCount() > 0){
-                                $valor = $res->fetchAll();
-                                foreach($valor as $valor1){
-                                    if($email == $valor1["email"]){
-                                        echo "<script>alert('Email já cadastrado $email')</script>";
-                                    }
-                                    else{
-                                        $query = "INSERT INTO Usuarios Values(default, '$nome','$bi', '$email', '$email_rec', '$data_nascimento', '$nivel', '$senha', '$foto')";
-                                        $res = $conn->query($query);
-                                    }
-                                }   
-                            }
+                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                    if (isset($_GET['niveis'])) {
+                        $nivel = $_GET['niveis'];
+                        $_SESSION['nivel'] = $nivel;
+                        $select = $nivel == "Todos" ? "SELECT * FROM Usuarios" : "SELECT * FROM Usuarios WHERE Nivel='$nivel'";
+                        $res = $conn->query($select);
+                        $dados = $res->fetchAll();
+                        foreach ($dados as $dado) {
                             echo "<tr>";
-                            echo "<td>" . htmlspecialchars($nome) . "</td>";
-                            echo "<td>". htmlspecialchars($bi) ."</td>";
-                            echo "<td>" . htmlspecialchars($email) . "</td>";
-                            echo "<td>" . htmlspecialchars($email_rec) . "</td>";
-                            echo "<td>" . htmlspecialchars($data_nascimento) . "</td>";
-                            echo "<td>" . htmlspecialchars($nivel) . "</td>";
-                            echo "<td>" . htmlspecialchars($senha) . "</td>";
-                            echo "<td><img src='" . htmlspecialchars($foto) . "' alt='foto_perfil'></td>";
+                            echo "<td>" . htmlspecialchars($dado['Codigo']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['Nome']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['N_BI']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['email']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['email_rec']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['data_nascimento']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['Nivel']) . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['senha']) . "</td>";
+                            echo "<td><img src='" . htmlspecialchars($dado['foto']) . "' alt='foto_perfil'></td>";
                             echo "</tr>";
-                            
                         }
-                        $primeira = false;
                     }
                 }
-                            
-            ?>
+                ?>
                     </tbody>
                 </table>
             </main>
