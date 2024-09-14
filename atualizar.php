@@ -45,7 +45,7 @@
                 $senha = $_POST['senha'];
                 $email_rec = $_POST["rec_email"];
                 $foto = "imagens/".$_POST['foto'];
-                $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', email_rec = '$email_rec', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo =  $cod";
+                $atualiar = "UPDATE Usuarios SET Nome = '$nome',N_BI = '$bi', email = '$email', email_rec = '$email_rec', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo =  $cod";
                 $atual = $conn->query($atualiar);
                 if($cod == $_SESSION["user_id"]){
                     $_SESSION["usuario"] = $nome;
@@ -335,6 +335,7 @@ nav ul li{
                 <li><a href="eliminar.php">Eliminar Usuário</a></li> <br>
                 <li><a href="atualizar.php">Atualizar Usuário</a></li> <br>
                 <li><a href="import.php">Importar Usuarios</a></li>
+                <li><a href="export.php">Exportar Usuarios</a></li>
 
             </ul>
        </nav>

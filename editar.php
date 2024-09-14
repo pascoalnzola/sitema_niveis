@@ -298,6 +298,7 @@ nav ul li{
                 <li><a href="eliminar.php">Eliminar Usuário</a></li> <br>
                 <li><a href="atualizar.php">Atualizar Usuário</a></li> <br>
                 <li><a href="import.php">Importar Usuarios</a></li>
+                <li><a href="export.php">Exportar Usuarios</a></li>
             </ul>
        </nav>
     </aside>
