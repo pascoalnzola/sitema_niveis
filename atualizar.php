@@ -66,6 +66,7 @@
                 $atual = $conn->query($atualiar);
                 if($cod == $_SESSION["user_id"]){
                     $_SESSION["usuario"] = $nome;
+                    $_SESSION['perfil'] = $foto;
                 }
                 echo "<script>alert('Dados atualizado com sucesso!')</script>";
             }
