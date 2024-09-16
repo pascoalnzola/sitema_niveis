@@ -35,7 +35,7 @@
             $atualiar = "UPDATE Usuarios SET Nome = '$nome', N_BI = '$bi', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
             $atual = $conn->query($atualiar);
             $_SESSION['usuario'] = $nome;
-            echo "<script>aler('Dados atualizado com sucesso!')</script>";
+            echo "<script>alert('Dados atualizado com sucesso!')</script>";
         }
         else{
             $nome = $_POST['nome'];
@@ -49,7 +49,8 @@
             $atualiar = "UPDATE Usuarios SET Nome = '$nome', email = '$email', data_nascimento = '$data', Nivel = '$nivel', foto = '$foto', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
             $atual = $conn->query($atualiar);
             $_SESSION['usuario'] = $nome;
-            echo "<script>aler('Dados atualizado com sucesso!')</script>";
+            $_SESSION['perfil'] = $foto;
+            echo "<script>alert('Dados atualizado com sucesso!')</script>";
         }
     }
 ?>

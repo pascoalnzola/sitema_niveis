@@ -325,8 +325,7 @@ header {
                         }
                         $primeira = false;
                     }
-                }
-                            
+                }            
             ?>
                     </tbody>
                 </table>

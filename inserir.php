@@ -268,7 +268,7 @@ nav ul li{
                 </select>
                 
                 <label for="foto">Foto de Perfil*</label>
-                <input type="file" name="foto" id="foto" accept="image/*" required>
+                <input type="file" name="foto" id="foto" accept="image/*">
                 
                 <label for="senha">Senha*</label>
                 <input type="password" name="senha" id="senha" required>

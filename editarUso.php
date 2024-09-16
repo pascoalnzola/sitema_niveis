@@ -32,6 +32,7 @@
             $bi = $_POST['bi'];
             $atualiar = "UPDATE Usuarios SET Nome = '$nome', N_BI = '$bi', email = '$email', data_nascimento = '$data', Nivel = '$nivel', senha = '$senha' WHERE Codigo = ".$_SESSION['user_id'];
             $atual = $conn->query($atualiar);
+            $_SESSION['usuario'] = $nome;
             echo "<script>alert('Dados atualizado com sucesso!')</script>";
         }
     }
