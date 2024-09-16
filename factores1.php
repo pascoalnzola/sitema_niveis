@@ -41,7 +41,6 @@
                 if($mail->send()){
                     echo 'email enviado';
                     header("Location: verif.php");
-                    
                 }
                 else{
                     echo 'email não enviado';
