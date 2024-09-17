@@ -304,7 +304,7 @@ nav ul li {
                 <form action="processar.php" method="post" enctype="multipart/form-data">
                     <label for="arquivo">Importar Arquivo</label>
                     <input type="file" name="arquivo" id="arquivo">
-                    <input type="submit" value="Importar">
+                    <input type="submit" value="Carregar arquivo">
                 </form>
             </main>
 </body>

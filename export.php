@@ -1,21 +1,53 @@
 <?php
-    include("Banco_dados/config.php");
-    // Verifica se o usuário está logado
-    if (!isset($_SESSION["user_id"])) {
-        header("Location: login.php");
-        exit();
+include("Banco_dados/config.php");
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Inicializa a variável $nivel com o valor padrão "Todos"
+$nivel = 'Todos';
+
+// Verifica se a requisição é do tipo GET e se o parâmetro 'niveis' está definido
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['niveis'])) {
+    $nivel = $_GET['niveis'];
+
+    // Sanitiza o valor do parâmetro para prevenir SQL Injection
+    $nivel = htmlspecialchars($nivel, ENT_QUOTES, 'UTF-8');
+
+    // Define a consulta SQL com base no nível selecionado
+    if ($nivel == "Todos") {
+        $select = "SELECT * FROM Usuarios";
+    } else {
+        // Prepara a consulta para evitar SQL Injection
+        $select = "SELECT * FROM Usuarios WHERE Nivel = :nivel";
     }
+} else {
+    $select = "SELECT * FROM Usuarios";
+}
+
+// Prepara e executa a consulta
+$stmt = $conn->prepare($select);
+
+if ($nivel !== "Todos") {
+    $stmt->bindParam(':nivel', $nivel, PDO::PARAM_STR);
+}
+
+$stmt->execute();
+$dados = $stmt->fetchAll();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exportar dados</title>
 </head>
 <style>
-body {
+    body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -238,8 +270,8 @@ header {
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-</style>
 
+</style>
 <body>
     <div class="container">
         <aside class="sidebar">
@@ -260,8 +292,8 @@ header {
         <div class="content">
             <header>
                 <div class="user">
-                    <img src="<?php echo $_SESSION['perfil']; ?>" alt="foto_perfil">
-                    <h1><?php echo $_SESSION["usuario"]; ?></h1>
+                    <img src="<?php echo htmlspecialchars($_SESSION['perfil'], ENT_QUOTES, 'UTF-8'); ?>" alt="foto_perfil">
+                    <h1><?php echo htmlspecialchars($_SESSION["usuario"], ENT_QUOTES, 'UTF-8'); ?></h1>
                 </div>
             </header>
 
@@ -269,14 +301,13 @@ header {
                 <div class="title-container">
                     <h1>Exportar Usuarios</h1>
                 </div>
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" id="filter-form">
-                    <select name="niveis" id="niveis">
-                        <option value="Todos">Todos</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Nivel1">Nível 1</option>
-                        <option value="Nivel2">Nível 2</option>
+                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>" method="get" id="filter-form">
+                    <select name="niveis" id="niveis" onchange="this.form.submit()">
+                        <option value="Todos" <?php if ($nivel == "Todos") echo 'selected'; ?>>Todos</option>
+                        <option value="Admin" <?php if ($nivel == "Admin") echo 'selected'; ?>>Admin</option>
+                        <option value="Nivel1" <?php if ($nivel == "Nivel1") echo 'selected'; ?>>Nível 1</option>
+                        <option value="Nivel2" <?php if ($nivel == "Nivel2") echo 'selected'; ?>>Nível 2</option>
                     </select>
-                    <input type="submit" value="Aplicar" class="btn">
                 </form>
                 <div class="logout-button">
                     <a href="planilha.php">Exportar</a>
@@ -297,33 +328,24 @@ header {
                     </thead>
                     <tbody>
                         <?php
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    if (isset($_GET['niveis'])) {
-                        $nivel = $_GET['niveis'];
-                        $_SESSION['nivel'] = $nivel;
-                        $select = $nivel == "Todos" ? "SELECT * FROM Usuarios" : "SELECT * FROM Usuarios WHERE Nivel='$nivel'";
-                        $res = $conn->query($select);
-                        $dados = $res->fetchAll();
                         foreach ($dados as $dado) {
                             echo "<tr>";
-                            echo "<td>" . htmlspecialchars($dado['Codigo']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['Nome']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['N_BI']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['email']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['email_rec']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['data_nascimento']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['Nivel']) . "</td>";
-                            echo "<td>" . htmlspecialchars($dado['senha']) . "</td>";
-                            echo "<td><img src='" . htmlspecialchars($dado['foto']) . "' alt='foto_perfil'></td>";
+                            echo "<td>" . htmlspecialchars($dado['Codigo'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['Nome'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['N_BI'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['email'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['email_rec'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['data_nascimento'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['Nivel'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td>" . htmlspecialchars($dado['senha'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td><img src='" . htmlspecialchars($dado['foto'], ENT_QUOTES, 'UTF-8') . "' alt='foto_perfil'></td>";
                             echo "</tr>";
                         }
-                    }
-                }
-                ?>
+                        ?>
                     </tbody>
                 </table>
             </main>
         </div>
+    </div>
 </body>
-
 </html>

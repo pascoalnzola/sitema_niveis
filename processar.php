@@ -265,14 +265,14 @@ header {
 
             <main>
                 <div class="title-container">
-                    <h1>Dados da importação</h1>
+                    <h1>Dados carregados</h1>
                 </div>
                 <table class="user-table">
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>E-mail</th>
                             <th>BI</th>
+                            <th>E-mail</th>
                             <th>E-mail de Recuperação</th>
                             <th>Data de Nascimento</th>
                             <th>Nível</th>
@@ -281,8 +281,10 @@ header {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
+                <?php
                 if(isset($_FILES['arquivo']) && !empty($_FILES['arquivo']['tmp_name'])){
+                    $usuarios = [];
+                    $i = $j = 0;
                     $arquivo = new DOMDocument();
                     $arquivo->load($_FILES['arquivo']['tmp_name']);
                     $linhas = $arquivo->getElementsByTagName("Row");
@@ -298,19 +300,17 @@ header {
                             $nivel = $linha->getElementsByTagName("Data")->item(5)->nodeValue;
                             $senha = $linha->getElementsByTagName("Data")->item(6)->nodeValue;
                             $foto = $linha->getElementsByTagName("Data")->item(7)->nodeValue;
-                            $query = "SELECT * FROM Usuarios";
-                            $res = $conn->query($query);
-                            if($res->rowCount() > 0){
-                                $valor = $res->fetchAll();
-                                foreach($valor as $valor1){
-                                    if($email == $valor1["email"]){
-                                        echo "<script>alert('Email já cadastrado $email')</script>";
-                                        return;
-                                    }
-                                } 
-                                $query = "INSERT INTO Usuarios Values(default, '$nome','$bi', '$email', '$email_rec', '$data_nascimento', '$nivel', '$senha', '$foto')";
-                                $res = $conn->query($query);  
-                            }
+                            // Armazenar os dados em um array associativo com índices
+                            $usuarios[] = [
+                                'nome' => $nome,
+                                'bi' => $bi,
+                                'email' => $email,
+                                'email_rec' => $email_rec,
+                                'data_nascimento' => $data_nascimento,
+                                'nivel' => $nivel,
+                                'senha' => $senha,
+                                'foto' => $foto
+                            ];
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($nome) . "</td>";
                             echo "<td>". htmlspecialchars($bi) ."</td>";
@@ -325,12 +325,36 @@ header {
                         }
                         $primeira = false;
                     }
-                }            
+                    // Armazenar os dados na sessão
+                        $_SESSION['usuarios'] = $usuarios;
+                }
             ?>
-                    </tbody>
-                </table>
-            </main>
-        </div>
+            </tbody>
+        </table>
+        <form class="logout-button" action="<?php echo $_SERVER['PHP_SELF']?>" method="get">
+            <input type="submit" value="Importar os dados">
+        </form>
+        <?php
+            if($_SERVER['REQUEST_METHOD'] === 'GET'){
+                $query = "SELECT * FROM Usuarios";
+                $res = $conn->query($query);
+                if($res->rowCount() > 0){
+                    $valor = $res->fetchAll();
+                    foreach($valor as $valor1){
+                        foreach ($_SESSION['usuarios'] as $index => $usuario) {
+                            foreach ($usuario as $key => $value) {
+                                if($key === 'email'){
+                                    if($value == $valor1['email']){
+                                        echo "<script>alert('Email já Cadastrado $value')</script>";
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        ?>
+    </main>
+</div>
 </body>
-
 </html>
