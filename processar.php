@@ -1,8 +1,9 @@
 <?php
-   include("Banco_dados/config.php");
-    if(!isset($_SESSION["user_id"])){
-        header("Location: login.php");
-    }
+include("Banco_dados/config.php");
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -11,9 +12,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Processar</title>
-</head>
-<style>
-body {
+    <style>
+        /* Your existing styles */
+        body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -236,7 +237,8 @@ header {
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-</style>
+    </style>
+</head>
 
 <body>
     <div class="container">
@@ -281,80 +283,87 @@ header {
                         </tr>
                     </thead>
                     <tbody>
-                <?php
-                if(isset($_FILES['arquivo']) && !empty($_FILES['arquivo']['tmp_name'])){
-                    $usuarios = [];
-                    $i = $j = 0;
-                    $arquivo = new DOMDocument();
-                    $arquivo->load($_FILES['arquivo']['tmp_name']);
-                    $linhas = $arquivo->getElementsByTagName("Row");
-                    //var_dump($linhas);
-                    $primeira = true;
-                    foreach($linhas as $linha){
-                        if($primeira == false){
-                            $nome = $linha->getElementsByTagName("Data")->item(0)->nodeValue;
-                            $bi = $linha->getElementsByTagName("Data")->item(1)->nodeValue;
-                            $email = $linha->getElementsByTagName("Data")->item(2)->nodeValue;
-                            $email_rec = $linha->getElementsByTagName("Data")->item(3)->nodeValue;
-                            $data_nascimento = $linha->getElementsByTagName("Data")->item(4)->nodeValue;
-                            $nivel = $linha->getElementsByTagName("Data")->item(5)->nodeValue;
-                            $senha = $linha->getElementsByTagName("Data")->item(6)->nodeValue;
-                            $foto = $linha->getElementsByTagName("Data")->item(7)->nodeValue;
-                            // Armazenar os dados em um array associativo com índices
-                            $usuarios[] = [
-                                'nome' => $nome,
-                                'bi' => $bi,
-                                'email' => $email,
-                                'email_rec' => $email_rec,
-                                'data_nascimento' => $data_nascimento,
-                                'nivel' => $nivel,
-                                'senha' => $senha,
-                                'foto' => $foto
-                            ];
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($nome) . "</td>";
-                            echo "<td>". htmlspecialchars($bi) ."</td>";
-                            echo "<td>" . htmlspecialchars($email) . "</td>";
-                            echo "<td>" . htmlspecialchars($email_rec) . "</td>";
-                            echo "<td>" . htmlspecialchars($data_nascimento) . "</td>";
-                            echo "<td>" . htmlspecialchars($nivel) . "</td>";
-                            echo "<td>" . htmlspecialchars($senha) . "</td>";
-                            echo "<td><img src='" . htmlspecialchars($foto) . "' alt='foto_perfil'></td>";
-                            echo "</tr>";
-                            
-                        }
-                        $primeira = false;
-                    }
-                    // Armazenar os dados na sessão
-                        $_SESSION['usuarios'] = $usuarios;
-                }
-            ?>
-            </tbody>
-        </table>
-        <form class="logout-button" action="<?php echo $_SERVER['PHP_SELF']?>" method="get">
-            <input type="submit" value="Importar os dados">
-        </form>
-        <?php
-            if($_SERVER['REQUEST_METHOD'] === 'GET'){
-                $query = "SELECT * FROM Usuarios";
-                $res = $conn->query($query);
-                if($res->rowCount() > 0){
-                    $valor = $res->fetchAll();
-                    foreach($valor as $valor1){
-                        foreach ($_SESSION['usuarios'] as $index => $usuario) {
-                            foreach ($usuario as $key => $value) {
-                                if($key === 'email'){
-                                    if($value == $valor1['email']){
-                                        echo "<script>alert('Email já Cadastrado $value')</script>";
+                        <?php
+                        if (isset($_FILES['arquivo']) && !empty($_FILES['arquivo']['tmp_name'])) {
+                            $usuarios = [];
+                            $arquivo = new DOMDocument();
+                            $arquivo->load($_FILES['arquivo']['tmp_name']);
+                            $linhas = $arquivo->getElementsByTagName("Row");
+                            $primeira = true;
+
+                            foreach ($linhas as $linha) {
+                                if (!$primeira) {
+                                    $dados = [];
+                                    foreach ($linha->getElementsByTagName("Data") as $data) {
+                                        $dados[] = $data->nodeValue;
                                     }
+
+                                    $usuarios[] = [
+                                        'nome' => $dados[0],
+                                        'bi' => $dados[1],
+                                        'email' => $dados[2],
+                                        'email_rec' => $dados[3],
+                                        'data_nascimento' => $dados[4],
+                                        'nivel' => $dados[5],
+                                        'senha' => $dados[6],
+                                        'foto' => $dados[7],
+                                    ];
+
+                                    echo "<tr>
+                                            <td>" . htmlspecialchars($dados[0]) . "</td>
+                                            <td>" . htmlspecialchars($dados[1]) . "</td>
+                                            <td>" . htmlspecialchars($dados[2]) . "</td>
+                                            <td>" . htmlspecialchars($dados[3]) . "</td>
+                                            <td>" . htmlspecialchars($dados[4]) . "</td>
+                                            <td>" . htmlspecialchars($dados[5]) . "</td>
+                                            <td>" . htmlspecialchars($dados[6]) . "</td>
+                                            <td><img src='" . htmlspecialchars($dados[7]) . "' alt='foto_perfil'></td>
+                                          </tr>";
                                 }
+                                $primeira = false;
+                            }
+                            $_SESSION['usuarios'] = $usuarios;
+                        }
+                        ?>
+                    </tbody>
+                </table>
+
+                <form class="logout-button" action="<?php echo $_SERVER['PHP_SELF']?>" method="get">
+                    <input type="submit" value="Importar os dados">
+                </form>
+
+                <?php
+                if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['usuarios'])) {
+                    $query = "SELECT email FROM Usuarios";
+                    $res = $conn->query($query);
+                    $emailsExistentes = $res->fetchAll(PDO::FETCH_COLUMN);
+
+                    foreach ($_SESSION['usuarios'] as $usuario) {
+                        if (in_array($usuario['email'], $emailsExistentes)) {
+                            echo "<script>alert('Email já cadastrado: " . htmlspecialchars($usuario['email']) . "')</script>";
+                        } else {
+                            // Inserir novo usuário
+                            $stmt = $conn->prepare("INSERT INTO Usuarios (nome, N_BI, email, email_rec, data_nascimento, nivel, senha, foto) VALUES (:nome, :bi, :email, :email_rec, :data_nascimento, :nivel, :senha, :foto)");
+                            $stmt->bindParam(':nome', $usuario['nome']);
+                            $stmt->bindParam(':bi', $usuario['bi']);
+                            $stmt->bindParam(':email', $usuario['email']);
+                            $stmt->bindParam(':email_rec', $usuario['email_rec']);
+                            $stmt->bindParam(':data_nascimento', $usuario['data_nascimento']);
+                            $stmt->bindParam(':nivel', $usuario['nivel']);
+                            $stmt->bindParam(':senha', $usuario['senha']);
+                            $stmt->bindParam(':foto', $usuario['foto']);
+
+                            if ($stmt->execute()) {
+                                echo "<script>alert('Usuário cadastrado com sucesso: " . htmlspecialchars($usuario['nome']) . "')</script>";
+                            } else {
+                                echo "<script>alert('Erro ao cadastrar usuário: " . htmlspecialchars($usuario['nome']) . "')</script>";
                             }
                         }
-                    } 
+                    }
                 }
-            }
-        ?>
-    </main>
-</div>
+                ?>
+            </main>
+        </div>
+    </div>
 </body>
 </html>

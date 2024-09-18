@@ -281,7 +281,7 @@ header {
                     <h1>Usuários Cadastrados</h1>
                 </div>
                 <form id="filter-form" method="get" action="">
-                    <input type="search" name="pesquisar" id="pesquisar" placeholder="Pesquisar" value="<?php echo htmlspecialchars($pesquisar); ?>">
+                    <input type="search" name="pesquisar" id="pesquisar" autofocus placeholder="Pesquisar" value="<?php echo htmlspecialchars($pesquisar); ?>">
                     <select name="niveis" id="niveis" onchange="submitFormOnChange()">
                         <option value="Todos" <?php echo $nivel == 'Todos' ? 'selected' : ''; ?>>Todos</option>
                         <option value="Admin" <?php echo $nivel == 'Admin' ? 'selected' : ''; ?>>Admin</option>

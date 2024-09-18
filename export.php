@@ -1,6 +1,5 @@
 <?php
 include("Banco_dados/config.php");
-
 // Verifica se o usuário está logado
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
@@ -13,6 +12,7 @@ $nivel = 'Todos';
 // Verifica se a requisição é do tipo GET e se o parâmetro 'niveis' está definido
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['niveis'])) {
     $nivel = $_GET['niveis'];
+    $_SESSION['nivel'] = $nivel;
 
     // Sanitiza o valor do parâmetro para prevenir SQL Injection
     $nivel = htmlspecialchars($nivel, ENT_QUOTES, 'UTF-8');
