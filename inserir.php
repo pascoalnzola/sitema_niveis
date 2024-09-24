@@ -9,6 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="imagens/OIP (1).jfif" type="image/x-icon">
     <title>Sistema</title>
     <link rel="stylesheet" href="estilo/estilo.css">
 </head>

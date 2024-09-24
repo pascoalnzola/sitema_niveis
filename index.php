@@ -15,6 +15,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="imagens/OIP (1).jfif" type="image/x-icon">
     <title>Sistema</title>
     <link rel="stylesheet" href="estilo/estilo.css">
     <script>
@@ -281,7 +282,7 @@ header {
                     <h1>Usuários Cadastrados</h1>
                 </div>
                 <form id="filter-form" method="get" action="">
-                    <input type="search" name="pesquisar" id="pesquisar" autofocus placeholder="Pesquisar" value="<?php echo htmlspecialchars($pesquisar); ?>">
+                    <input type="search" name="pesquisar" id="pesquisar" oninput="submitFormOnChange()" placeholder="Pesquisar" value="<?php echo htmlspecialchars($pesquisar); ?>">
                     <select name="niveis" id="niveis" onchange="submitFormOnChange()">
                         <option value="Todos" <?php echo $nivel == 'Todos' ? 'selected' : ''; ?>>Todos</option>
                         <option value="Admin" <?php echo $nivel == 'Admin' ? 'selected' : ''; ?>>Admin</option>
